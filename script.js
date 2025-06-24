@@ -51,7 +51,7 @@ async function fetchMarsPhoto(event) {
     event.preventDefault();
     const rover = document.getElementById('rover').value;
     const camera = document.getElementById('camera').value;
-    const apiKey = 'G0ez761tOasBsZZWekD9aYz8InT7S41NdJ9Gd4a8';
+    const apiKey = 'DEMO_key';
     const url = `https://api.nasa.gov/mars-photos/api/v1/rovers/${rover}/photos?sol=1000&camera=${camera}&api_key=${apiKey}`;
     const img = document.getElementById('marsImage');
     const info = document.getElementById('marsInfo');
