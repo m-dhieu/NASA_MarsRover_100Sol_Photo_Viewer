@@ -1,0 +1,35 @@
+<!-- 
+Mars Rover 100 Sol Photo Viewer Page:
+Includes Rover and Camera options from which the photo is fetched.
+-->
+
+
+<section>
+<link rel="stylesheet" href="styles.css" />
+<body>
+  <div class="container">
+      <h1>Mars Rover 100Sol Photo Viewer</h1>
+      <form id="roverForm">
+          <div style="margin-bottom: 12px;">
+              <label for="rover">Rover:</label>
+              <select id="rover">
+                  <option value="curiosity">Curiosity</option>
+                  <option value="opportunity">Opportunity</option>
+                  <option value="spirit">Spirit</option>
+              </select>
+          </div>
+          <div style="margin-bottom: 12px;">
+              <label for="camera">Camera:</label>
+              <select id="camera">
+              </select>
+          </div>
+          <button type="submit">Show Photo</button>
+      </form>
+      <div id="photoResult">
+          <img id="marsImage" src="" alt="" style="display:none;">
+          <p id="marsInfo"></p>
+      </div>
+  </div>
+<script src="script.js"></script>
+</body>
+</section>
