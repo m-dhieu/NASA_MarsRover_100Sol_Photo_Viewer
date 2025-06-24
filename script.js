@@ -1,6 +1,7 @@
 /*
 Mars Rover 100 Sol Photo Viewer:
 Function to fetch Mars photos from Mars day 100 using the NASA Mars Rover Photos API.
+
 Main program flow:
 1. Get user's selection (rover and camera)
 2. Fetch data from NASA API
