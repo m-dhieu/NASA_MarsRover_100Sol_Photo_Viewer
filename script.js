@@ -9,34 +9,62 @@ Main program flow:
 */ 
 
 
+// Define cameras available for each rover
+const roverCameras = {
+    curiosity: [
+        { code: "FHAZ", name: "Front Hazard Avoidance Camera" },
+        { code: "RHAZ", name: "Rear Hazard Avoidance Camera" },
+        { code: "MAST", name: "Mast Camera" },
+        { code: "CHEMCAM", name: "Chemistry and Camera Complex" },
+        { code: "MAHLI", name: "Mars Hand Lens Imager" },
+        { code: "MARDI", name: "Mars Descent Imager" },
+        { code: "NAVCAM", name: "Navigation Camera" }
+    ],
+    opportunity: [
+        { code: "FHAZ", name: "Front Hazard Avoidance Camera" },
+        { code: "RHAZ", name: "Rear Hazard Avoidance Camera" },
+        { code: "NAVCAM", name: "Navigation Camera" },
+        { code: "PANCAM", name: "Panoramic Camera" },
+        { code: "MINITES", name: "Miniature Thermal Emission Spectrometer" }
+    ],
+    spirit: [
+        { code: "FHAZ", name: "Front Hazard Avoidance Camera" },
+        { code: "RHAZ", name: "Rear Hazard Avoidance Camera" },
+        { code: "NAVCAM", name: "Navigation Camera" },
+        { code: "PANCAM", name: "Panoramic Camera" },
+        { code: "MINITES", name: "Miniature Thermal Emission Spectrometer" }
+    ]
+};
+
+// Populate camera options based on selected rover
+function updateCameraOptions() {
+    const rover = document.getElementById('rover').value;
+    const cameraSelect = document.getElementById('camera');
+    cameraSelect.innerHTML = ''; // Clear existing options
+
+    roverCameras[rover].forEach(cam => {
+        const option = document.createElement('option');
+        option.value = cam.code;
+        option.textContent = `${cam.name} (${cam.code})`;
+        cameraSelect.appendChild(option);
+    });
+}
+
+// Fetch Mars photo from backend proxy and display it
 async function fetchMarsPhoto(event) {
     event.preventDefault();
+
     const rover = document.getElementById('rover').value;
     const camera = document.getElementById('camera').value;
-    const sol = 1000; // or let user choose
+    const sol = 100; // Mars sol (day) number
 
     const url = `http://localhost:3000/api/marsphotos?rover=${rover}&camera=${camera}&sol=${sol}`;
     const img = document.getElementById('marsImage');
     const info = document.getElementById('marsInfo');
+
     img.style.display = 'none';
     info.textContent = 'Loading...';
 
     try {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error('Network response was not ok');
-        const data = await response.json();
-        const photo = (data.photos || [])[0];
-        if (photo) {
-            img.src = photo.img_src;
-            img.alt = `${rover} - ${camera}`;
-            img.style.display = 'block';
-            info.textContent = `Rover: ${rover.charAt(0).toUpperCase() + rover.slice(1)}, Camera: ${photo.camera.full_name}, Sol: ${photo.sol}, Earth Date: ${photo.earth_date}`;
-        } else {
-            img.style.display = 'none';
-            info.textContent = 'No photo found for this camera on sol 1000.';
-        }
-    } catch (error) {
-        img.style.display = 'none';
-        info.textContent = 'Error: ' + error.message;
-    }
-}
+        const response = await fetch
+
