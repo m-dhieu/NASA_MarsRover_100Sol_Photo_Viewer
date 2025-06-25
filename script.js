@@ -9,50 +9,13 @@ Main program flow:
 */ 
 
 
-const roverCameras = {
-    curiosity: [
-        { code: "FHAZ", name: "Front Hazard Avoidance Camera" },
-        { code: "RHAZ", name: "Rear Hazard Avoidance Camera" },
-        { code: "MAST", name: "Mast Camera" },
-        { code: "CHEMCAM", name: "Chemistry and Camera Complex" },
-        { code: "MAHLI", name: "Mars Hand Lens Imager" },
-        { code: "MARDI", name: "Mars Descent Imager" },
-        { code: "NAVCAM", name: "Navigation Camera" }
-    ],
-    opportunity: [
-        { code: "FHAZ", name: "Front Hazard Avoidance Camera" },
-        { code: "RHAZ", name: "Rear Hazard Avoidance Camera" },
-        { code: "NAVCAM", name: "Navigation Camera" },
-        { code: "PANCAM", name: "Panoramic Camera" },
-        { code: "MINITES", name: "Miniature Thermal Emission Spectrometer" }
-    ],
-    spirit: [
-        { code: "FHAZ", name: "Front Hazard Avoidance Camera" },
-        { code: "RHAZ", name: "Rear Hazard Avoidance Camera" },
-        { code: "NAVCAM", name: "Navigation Camera" },
-        { code: "PANCAM", name: "Panoramic Camera" },
-        { code: "MINITES", name: "Miniature Thermal Emission Spectrometer" }
-    ]
-};
-
-function updateCameraOptions() {
-    const rover = document.getElementById('rover').value;
-    const cameraSelect = document.getElementById('camera');
-    cameraSelect.innerHTML = '';
-    roverCameras[rover].forEach(cam => {
-        const opt = document.createElement('option');
-        opt.value = cam.code;
-        opt.textContent = cam.name + ` (${cam.code})`;
-        cameraSelect.appendChild(opt);
-    });
-}
-
 async function fetchMarsPhoto(event) {
     event.preventDefault();
     const rover = document.getElementById('rover').value;
     const camera = document.getElementById('camera').value;
-    const apiKey = 'DEMO_key';
-    const url = `https://api.nasa.gov/mars-photos/api/v1/rovers/${rover}/photos?sol=1000&camera=${camera}&api_key=${apiKey}`;
+    const sol = 1000; // or let user choose
+
+    const url = `http://localhost:3000/api/marsphotos?rover=${rover}&camera=${camera}&sol=${sol}`;
     const img = document.getElementById('marsImage');
     const info = document.getElementById('marsInfo');
     img.style.display = 'none';
@@ -77,9 +40,3 @@ async function fetchMarsPhoto(event) {
         info.textContent = 'Error: ' + error.message;
     }
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-    updateCameraOptions();
-    document.getElementById('rover').addEventListener('change', updateCameraOptions);
-    document.getElementById('roverForm').addEventListener('submit', fetchMarsPhoto);
-});
